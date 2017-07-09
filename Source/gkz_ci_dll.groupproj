@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7CA3DF94-7946-4689-A7DE-20C68AC93BD7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="gkz_ci.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TestX\gkz_ci_Test.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="gkz_ci">
+        <MSBuild Projects="gkz_ci.dproj"/>
+    </Target>
+    <Target Name="gkz_ci:Clean">
+        <MSBuild Projects="gkz_ci.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="gkz_ci:Make">
+        <MSBuild Projects="gkz_ci.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="gkz_ci_Test">
+        <MSBuild Projects="TestX\gkz_ci_Test.dproj"/>
+    </Target>
+    <Target Name="gkz_ci_Test:Clean">
+        <MSBuild Projects="TestX\gkz_ci_Test.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="gkz_ci_Test:Make">
+        <MSBuild Projects="TestX\gkz_ci_Test.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="gkz_ci;gkz_ci_Test"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="gkz_ci:Clean;gkz_ci_Test:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="gkz_ci:Make;gkz_ci_Test:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
