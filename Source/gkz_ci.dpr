@@ -28,10 +28,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.Math,
-  {$WARN}
-  {$WARN}
-  {$WARN}
-  CalcInterval in 'CalcInterval.pas' {$WARN SYMBOL_PLATFORM DEFAULT},
+  CalcInterval in 'CalcInterval.pas',
   IOTypes in 'IOTypes.pas',
   ExportFunctions in 'ExportFunctions.pas',
   ParamsCI in 'ParamsCI.pas',

@@ -53,55 +53,63 @@ implementation
 uses
   ParamsCI;
 
-function getFirstSbInterval: integer;
-var
-  i: integer;
-begin
-  result := -1;
-  for i := 0 to IntervalList.Count - 1 do
-    if IntervalList[i].type1 then
-    begin
-      result := i;
-      break;
-    end;
-end;
-
-function GetNextSbInterval(_i, between: integer): integer;
-var
-  j, btw: integer;
-begin
-  result := -1;
-  btw := 0;
-  j := _i + 1;
-  while j <= IntervalList.Count - 1 do
-  begin
-    if (IntervalList[j].type1) then
-      if btw = between then
-      begin
-        result := j;
-        break;
-      end
-      else
-        inc(btw);
-    inc(j);
-  end;
-end;
-
 procedure CombineAllIntervals;
 var
-  i, interval_1, interval_2, btw: integer;
-  f, fg: boolean;
+  interval_1, interval_2, btw: integer;
+  f2: boolean;
 begin
   btw := 0;
   while true do
   begin
-    interval_1 := getFirstSbInterval;
+    interval_1 := IntervalList.getFirstType1Interval;
     if interval_1 = -1 then
       break;
-    interval_2 := GetNextSbInterval(interval_1, btw);
-    if interval_2 = -1 then
+    f2 := false;
+    while true do
+    begin
+      interval_2 := IntervalList.getNextType1Interval(interval_1, btw);
+      if interval_2 = -1 then
+        break;
+      if IntervalList.TryCombineIntervalsBetween(interval_1, interval_2) then
+      begin
+        f2 := true;
+        break;
+      end
+      else
+        interval_1 := interval_2;
+    end;
+    if f2 then
+      btw := 0
+    else if btw < IntervalList.getType1IntervalsCount - 2 then
+      inc(btw)
+    else
       break;
-
+  end;
+  IntervalList.checkType1Intervals;
+  IntervalList.combineType1Intervals(false);
+  btw := 0;
+  while true do
+  begin
+    interval_1 := IntervalList.getFirstType1Interval;
+    if interval_1 = -1 then
+      break;
+    f2 := false;
+    while true do
+    begin
+      interval_2 := IntervalList.getNextType1Interval(interval_1, btw);
+      if interval_2 = -1 then
+        break;
+      if IntervalList.checkType1ToFalse(interval_1, interval_2) then
+      begin
+        f2 := true;
+        IntervalList.combineType1Intervals(false);
+        break;
+      end
+      else
+        interval_1 := interval_2;
+    end;
+    if not f2 then
+      break;
   end;
 end;
 
@@ -170,16 +178,7 @@ begin
 end;
 
 procedure FreeEverything;
-var
-  pi: PInterval;
 begin
-  Sample1Array := nil;
-  while IntervalList.Count <> 0 do
-  begin
-    pi := IntervalList[0];
-    IntervalList.Delete(0);
-    Dispose(pi);
-  end;
   IntervalList.Free;
 end;
 
