@@ -122,6 +122,8 @@
         <DCCReference Include="ExportFunctions.pas"/>
         <DCCReference Include="ParamsCI.pas"/>
         <DCCReference Include="CheckInputSamples.pas"/>
+        <DCCReference Include="IntervalClass.pas"/>
+        <DCCReference Include="IntervalListClass.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
