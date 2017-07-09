@@ -98,8 +98,7 @@ begin
   else
     IntervalList[_i].type1 := false;
   // type2
-  if (IntervalList[_i].length < Mrt) and (IntervalList[_i].metergrade < Mc)
-  then
+  if (IntervalList[_i].length < Mrt) and (IntervalList[_i].metergrade < Mc) then
     IntervalList[_i].type2 := itNoCond
   else
     IntervalList[_i].type2 := itCondBal;
@@ -128,6 +127,27 @@ begin
   end;
 end;
 
+function getSumLengthBetweenIntervals(i1, i2: integer): double;
+var
+  i: integer;
+begin
+  result := 0;
+  for i:= i1 to i2 do
+    result := result + IntervalList[i].length;
+end;
+
+function tryCombineSbIntervals(i1, i2: integer): boolean;
+var
+  length: double;
+begin
+  result := true;
+  length := getSumLengthBetweenIntervals(i1 + 1, i2 - 1);
+  if (length > 0) and (length <= Mpp) and () then
+    CombineIntervalsBetween(i1, i2)
+  else
+    result := false;
+end;
+
 function GetMinGradeNextInterval(_i: integer): integer;
 begin
   if (_i = 0) and (IntervalList.Count > 1) then
@@ -153,6 +173,40 @@ begin
     end;
 end;
 
+function getFirstSbInterval: integer;
+var
+  i: integer;
+begin
+  result := -1;
+  for i := 0 to IntervalList.Count - 1 do
+  if IntervalList[i].type1 then
+  begin
+    result := i;
+    break;
+  end;
+end;
+
+function GetNextSbInterval(_i, between: integer): integer;
+var
+  j, btw: integer;
+begin
+  result := -1;
+  btw := 0;
+  j := _i + 1;
+  while j <= IntervalList.Count - 1 do
+  begin
+    if (IntervalList[j].type1) then
+      if btw = between then
+      begin
+        result := j;
+        break;
+      end
+      else
+        inc(btw);
+    inc(j);
+  end;
+end;
+
 // ************
 
 procedure SetOutputIntervalArray;
@@ -173,10 +227,20 @@ end;
 
 procedure CombineAllIntervals;
 var
-  i: integer;
+  i, interval_1, interval_2, btw: integer;
   f, fg: boolean;
 begin
-  
+  btw := 0;
+  while true do
+  begin
+    interval_1 := getFirstSbInterval;
+    if interval_1 = -1 then
+      break;
+    interval_2 := GetNextSbInterval(interval_1, btw);
+    if interval_2 = -1 then
+      break;
+
+  end;
 end;
 
 procedure SetIntervalsType;
@@ -233,7 +297,7 @@ begin
     // метропроцент считаем
     Sample1Array[i].metergrade :=
       SimpleRoundTo(Sample1Array[i].length * ISampleArray[i]._grade,
-        roundValueMetergrade);
+      roundValueMetergrade);
   end;
   SetRoundMode(rm);
 end;
