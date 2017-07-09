@@ -24,31 +24,13 @@ uses IOTypes, System.Generics.Collections, System.Math;
 
 type
 
-  /// <summary>
-  /// Тип проб
-  /// </summary>
-  TSampleType1 = (
-    /// <summary>
-    /// с содержанием &gt;= <see cref="CalcInterval|Sb" />
-    /// </summary>
-    stB,
-    /// <summary>
-    /// с содержанием &lt; <see cref="CalcInterval|Sb" /> и &gt;= <see cref="CalcInterval|Sz" />
-    /// </summary>
-    stZ,
-    /// <summary>
-    /// с содержанием &lt; <see cref="CalcInterval|Sz" />
-    /// </summary>
-    stP);
-
-  TIntervalType2 = (itPP, itBK, itBN, itZ);
+  TIntervalType2 = (itCondBal, itCondZab, itNoCond);
 
   TSample1 = record
-    type1: TSampleType1;
-    // расстояние
-    lenght,
-    // зона влияния пробы
-    lengthA,
+    // больше бортового
+    type1: boolean;
+    // длина
+    length,
     // метропроцент
     metergrade: double;
   end;
@@ -57,7 +39,7 @@ type
 
   TInterval = record
     _from, _to: integer;
-    type1: TSampleType1;
+    type1: boolean;
     type2: TIntervalType2;
     length, grade, metergrade: double;
   end;
@@ -69,13 +51,10 @@ var
   Sample1Array: array of TSample1;
   IntervalList: TList<PInterval>;
 
-function CheckInput: boolean;
 procedure CalcSamples;
 procedure CalcIntervals;
-procedure CombineAloneIntervals;
 procedure SetIntervalsType;
 procedure CombineAllIntervals;
-procedure CombineToIntersection;
 procedure SetOutputIntervalArray;
 procedure FreeEverything;
 
@@ -87,7 +66,7 @@ uses
 type
   TCombineCheck = reference to function(_i1, _i2: integer): boolean;
 
-procedure CalcInterval1(_i: integer);
+procedure CalcIntervalParams(_i: integer);
 var
   j: integer;
   rm: TRoundingMode;
@@ -115,24 +94,15 @@ procedure SetIntervalType(_i: integer);
 begin
   // type1
   if IntervalList[_i].grade >= Sb then
-    IntervalList[_i].type1 := stB
-  else if IntervalList[_i].grade < Mpp then
-    IntervalList[_i].type1 := stP
+    IntervalList[_i].type1 := true
   else
-    IntervalList[_i].type1 := stZ;
+    IntervalList[_i].type1 := false;
   // type2
-  if (IntervalList[_i].grade >= Mc) and (IntervalList[_i].metergrade >= Mrt)
+  if (IntervalList[_i].length < Mrt) and (IntervalList[_i].metergrade < Mc)
   then
-    IntervalList[_i].type2 := itBK
-  else if ((IntervalList[_i].grade >= Sb) and
-    (IntervalList[_i].metergrade < Mrt)) or
-    ((IntervalList[_i].grade < Mc) and (IntervalList[_i].grade >= Sb) and
-    (IntervalList[_i].metergrade >= Mrt)) then
-    IntervalList[_i].type2 := itBN
-  else if (IntervalList[_i].grade < Sb) and (IntervalList[_i].grade >= Mpp) then
-    IntervalList[_i].type2 := itZ
+    IntervalList[_i].type2 := itNoCond
   else
-    IntervalList[_i].type2 := itPP;
+    IntervalList[_i].type2 := itCondBal;
 end;
 
 procedure CombineIntervals(_i1, _i2: integer);
@@ -145,7 +115,7 @@ begin
   pi := IntervalList[_i2];
   IntervalList.Delete(_i2);
   Dispose(pi);
-  CalcInterval1(_i1);
+  CalcIntervalParams(_i1);
   SetIntervalType(_i1);
 end;
 
@@ -183,145 +153,7 @@ begin
     end;
 end;
 
-procedure CombineToIntersectionType(_it: TIntervalType2;
-  _CombineCheck: TCombineCheck);
-var
-  bk1, bk2, i: integer;
-begin
-  repeat
-    bk1 := -1;
-    bk2 := -1;
-    for i := 0 to IntervalList.Count - 1 do
-    begin
-      if IntervalList[i].type2 = _it then
-        if bk1 = -1 then
-          bk1 := i
-        else
-        begin
-          bk2 := i;
-          if _CombineCheck(bk1, bk2) then
-          begin
-            CombineIntervalsBetween(bk1, bk2);
-            break;
-          end
-          else
-          begin
-            bk1 := i;
-            bk2 := -1;
-          end;
-        end;
-    end;
-  until (bk1 = -1) or (bk2 = -1);
-end;
-
 // ************
-
-procedure CombineToIntersection;
-begin
-  roundValueMetergrade := -3;
-  // объединяем интервалы в пересечения
-  // сначала БК, потом БН, потом З
-  CombineToIntersectionType(itBK,
-    function(_i1, _i2: integer): boolean
-    var
-      i: integer;
-      sum, sum2: double;
-    begin
-      result := false;
-      sum := 0;
-      for i := _i1 + 1 to _i2 - 1 do
-        sum := sum + IntervalList[i].length;
-      if sum > Sbz then
-        exit;
-      sum := 0;
-      for i := _i1 to _i2 - 1 do
-        sum := sum + IntervalList[i].metergrade;
-      if sum < Mrt then
-        exit;
-      sum2 := 0;
-      for i := _i1 to _i2 - 1 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Mc then
-        exit;
-      sum := 0;
-      for i := _i1 + 1 to _i2 do
-        sum := sum + IntervalList[i].metergrade;
-      if sum < Mrt then
-        exit;
-      sum2 := 0;
-      for i := _i1 + 1 to _i2 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Mc then
-        exit;
-      result := true;
-    end);
-  CombineToIntersectionType(itBN,
-    function(_i1, _i2: integer): boolean
-    var
-      i: integer;
-      sum, sum2: double;
-    begin
-      result := false;
-      sum := 0;
-      for i := _i1 + 1 to _i2 - 1 do
-        sum := sum + IntervalList[i].length;
-      if sum > Sbz then
-        exit;
-      sum := 0;
-      for i := _i1 to _i2 - 1 do
-        sum := sum + IntervalList[i].metergrade;
-      sum2 := 0;
-      for i := _i1 to _i2 - 1 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Sb then
-        exit;
-      sum := 0;
-      for i := _i1 + 1 to _i2 do
-        sum := sum + IntervalList[i].metergrade;
-      sum2 := 0;
-      for i := _i1 + 1 to _i2 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Sb then
-        exit;
-      for i := _i1 + 1 to _i2 - 1 do
-        if IntervalList[i].grade >= Sb then
-          exit;
-      result := true;
-    end);
-  CombineToIntersectionType(itZ,
-    function(_i1, _i2: integer): boolean
-    var
-      i: integer;
-      sum, sum2: double;
-    begin
-      result := false;
-      sum := 0;
-      for i := _i1 + 1 to _i2 - 1 do
-        sum := sum + IntervalList[i].length;
-      if sum > Sbz then
-        exit;
-      sum := 0;
-      for i := _i1 to _i2 - 1 do
-        sum := sum + IntervalList[i].metergrade;
-      sum2 := 0;
-      for i := _i1 to _i2 - 1 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Mpp then
-        exit;
-      sum := 0;
-      for i := _i1 + 1 to _i2 do
-        sum := sum + IntervalList[i].metergrade;
-      sum2 := 0;
-      for i := _i1 + 1 to _i2 do
-        sum2 := sum2 + IntervalList[i].length;
-      if sum / sum2 < Mpp then
-        exit;
-      for i := _i1 to _i2 do
-        if IntervalList[i].grade >= Sb then
-          exit;
-      result := true;
-    end);
-end;
 
 procedure SetOutputIntervalArray;
 var
@@ -344,46 +176,7 @@ var
   i: integer;
   f, fg: boolean;
 begin
-  i := 0;
-  // объединяем однотипные по type1
-  while i < IntervalList.Count - 1 do
-  begin
-    if IntervalList[i].type1 = IntervalList[i + 1].type1 then
-      CombineIntervals(i, i + 1)
-    else
-      inc(i);
-  end;
-  repeat
-    fg := true;
-    // объединяем БН и З
-    repeat
-      f := true;
-      i := 0;
-      while i < IntervalList.Count - 1 do
-      begin
-        if ((IntervalList[i].type2 = itBN) and (IntervalList[i + 1].type2 = itZ)
-          ) or ((IntervalList[i].type2 = itZ) and
-          (IntervalList[i + 1].type2 = itBN)) then
-        begin
-          CombineIntervals(i, i + 1);
-          f := false;
-          fg := false;
-        end;
-        inc(i);
-      end;
-      i := 0;
-      while i < IntervalList.Count - 1 do
-      begin
-        if IntervalList[i].type2 = IntervalList[i + 1].type2 then
-        begin
-          CombineIntervals(i, i + 1);
-          f := false;
-        end
-        else
-          inc(i);
-      end;
-    until f;
-  until fg;
+  
 end;
 
 procedure SetIntervalsType;
@@ -392,44 +185,6 @@ var
 begin
   for i := 0 to IntervalList.Count - 1 do
     SetIntervalType(i);
-end;
-
-procedure CombineAloneIntervals;
-var
-  i, m: integer;
-  pi, pi2: PInterval;
-begin
-  i := 1;
-  // попарное объединение соседних единичных интервалов
-  while i < IntervalList.Count do
-  begin
-    pi := IntervalList[i];
-    pi2 := IntervalList[i - 1];
-    if (pi._from = pi._to) and (pi2._from = pi2._to) and
-      (pi.length - 0.1 < 0.001) and (pi2.length - 0.1 < 0.001) then
-      CombineIntervals(i - 1, i)
-    else
-      inc(i);
-  end;
-  i := 0;
-  // объединение единичных к соседнему с меньшим качеством
-  while (i < IntervalList.Count) and (IntervalList.Count > 1) do
-  begin
-    pi := IntervalList[i];
-    if (pi._from = pi._to) and (pi.length - 0.1 < 0.001) then
-    begin
-      m := GetMinGradeNextInterval(i);
-      if IntervalList[m]._from <> IntervalList[m]._to then
-        if m < i then
-          CombineIntervals(m, i)
-        else
-          CombineIntervals(i, m)
-      else
-        inc(i);
-    end
-    else
-      inc(i);
-  end;
 end;
 
 procedure CalcIntervals;
@@ -455,7 +210,7 @@ begin
       pi._to := i;
   for i := 0 to IntervalList.Count - 1 do
   begin
-    CalcInterval1(i);
+    CalcIntervalParams(i);
     SetIntervalType(i);
   end;
 end;
@@ -472,18 +227,12 @@ begin
   begin
     // сначала определяем тип каждой пробы
     if ISampleArray[i]._grade >= Sb then
-      Sample1Array[i].type1 := stB
-    else if ISampleArray[i]._grade < Mpp then
-      Sample1Array[i].type1 := stP
+      Sample1Array[i].type1 := true
     else
-      Sample1Array[i].type1 := stZ;
-    // вычисление зоны влияния пробы
-    Sample1Array[i].lengthA :=
-      SimpleRoundTo(ISampleArray[i]._to - ISampleArray[i]._from,
-        roundValueLength);
+      Sample1Array[i].type1 := false;
     // метропроцент считаем
     Sample1Array[i].metergrade :=
-      SimpleRoundTo(Sample1Array[i].lengthA * ISampleArray[i]._grade,
+      SimpleRoundTo(Sample1Array[i].length * ISampleArray[i]._grade,
         roundValueMetergrade);
   end;
   SetRoundMode(rm);

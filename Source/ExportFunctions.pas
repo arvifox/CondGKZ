@@ -12,7 +12,7 @@ function GetIntervals(_SampleArray: TISampleArray;
 
 implementation
 
-uses CalcInterval;
+uses CalcInterval, CheckInputSamples;
 
 function SetConditionConstants(_Sb, _Mpp, _Mrt, _Mc, _Sbz: double; _Cz: boolean)
   : HRESULT; stdcall;
@@ -35,9 +35,8 @@ begin
   begin
     CalcSamples;
     CalcIntervals;
-    SetIntervalsType;
+//    SetIntervalsType;
     CombineAllIntervals;
-    CombineToIntersection;
     SetOutputIntervalArray;
     FreeEverything;
     Result := S_OK;
