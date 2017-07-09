@@ -9,10 +9,10 @@ uses
   TestInsight.DUnitX,
   {$ENDIF }
   DUnitX.Loggers.Console,
-//  DUnitX.Loggers.GUIX,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
-  GKZTest1 in 'GKZTest1.pas';
+  GKZTest1 in 'GKZTest1.pas',
+  gkz_case_1 in 'gkz_case_1.pas';
 
 var
   runner : ITestRunner;
