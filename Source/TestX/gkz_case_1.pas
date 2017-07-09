@@ -11,20 +11,12 @@ type
   private
     iarray: TISampleArray;
     oarray: TOSampleArray;
+    function IsCase1: boolean;
   public
     [Setup]
     procedure Setup;
     [TearDown]
     procedure TearDown;
-    // Sample Methods
-    // Simple single Test
-    [Test]
-    procedure Test1;
-    // Test with TestCase Attribute to supply parameters.
-    [Test]
-    [TestCase('TestA','1,2')]
-    [TestCase('TestB','3,4')]
-    procedure Test2(const AValue1 : Integer;const AValue2 : Integer);
     [Test]
     procedure CheckCase1;
   end;
@@ -36,11 +28,17 @@ uses
 
 procedure TGKZCase1.CheckCase1;
 begin
+  Assert.IsTrue(IsCase1, 'case 1 gkz');
+end;
 
+function TGKZCase1.IsCase1: boolean;
+begin
+  result := true;
 end;
 
 procedure TGKZCase1.Setup;
 begin
+  SetLength(oarray, 19);
   SetLength(iarray, 19);
   iarray[0]._from  := 79.0;
   iarray[0]._to    := 80.0;
@@ -121,14 +119,8 @@ end;
 
 procedure TGKZCase1.TearDown;
 begin
-end;
-
-procedure TGKZCase1.Test1;
-begin
-end;
-
-procedure TGKZCase1.Test2(const AValue1 : Integer;const AValue2 : Integer);
-begin
+  iarray := nil;
+  oarray := nil;
 end;
 
 initialization
