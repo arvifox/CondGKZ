@@ -47,9 +47,10 @@ var
   /// <summary>
   ///   минимальное бортовое содержание ПИ для забалансовых руд
   /// </summary>
-  /// <seealso cref="ParamCI|CalcZabalans">
-  ///   по этому флагу
-  /// </seealso>
+  /// <remarks>
+  ///   по флагу <see cref="ParamsCI|CalcZabalans" /> определяем, считать ли
+  ///   вообще забалансовые
+  /// </remarks>
   Sbz: double;
 
   /// <summary>
