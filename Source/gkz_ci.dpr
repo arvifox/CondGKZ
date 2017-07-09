@@ -28,10 +28,12 @@ uses
   System.SysUtils,
   System.Classes,
   System.Math,
-  CalcInterval in 'CalcInterval.pas',
+  {$WARN}
+  CalcInterval in 'CalcInterval.pas' {$WARN SYMBOL_PLATFORM DEFAULT},
   IOTypes in 'IOTypes.pas',
   ExportFunctions in 'ExportFunctions.pas',
-  ParamsCI in 'ParamsCI.pas';
+  ParamsCI in 'ParamsCI.pas',
+  CheckInputSamples in 'CheckInputSamples.pas';
 
 {$R *.res}
 {$R properties.res}

@@ -29,7 +29,6 @@ end;
 function GetIntervals(_SampleArray: TISampleArray;
   var _IntervalArray: TOSampleArray): HRESULT; stdcall;
 begin
-  roundValueMetergrade := -5;
   ISampleArray := _SampleArray;
   OSampleArray := _IntervalArray;
   if CheckInput then

@@ -45,8 +45,11 @@ var
   Mc: double;
 
   /// <summary>
-  /// минимальное бортовое содержание ПИ для забалансовых руд
+  ///   минимальное бортовое содержание ПИ для забалансовых руд
   /// </summary>
+  /// <seealso cref="ParamCI|CalcZabalans">
+  ///   по этому флагу
+  /// </seealso>
   Sbz: double;
 
   /// <summary>
