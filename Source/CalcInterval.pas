@@ -44,7 +44,6 @@ var
 
 procedure CalcSamples;
 procedure CalcIntervals;
-procedure SetIntervalsType;
 procedure CombineAllIntervals;
 procedure SetOutputIntervalArray;
 procedure FreeEverything;
@@ -87,8 +86,6 @@ begin
     inc(j);
   end;
 end;
-
-// ************
 
 procedure CombineAllIntervals;
 var

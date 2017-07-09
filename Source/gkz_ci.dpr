@@ -57,5 +57,6 @@ begin
   roundValueGrade := -3;
   roundValueMetergrade := -3;
   precisionMode := pmDouble;
+  comparePrecision := 0.001;
 
 end.

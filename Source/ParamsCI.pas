@@ -58,6 +58,8 @@ var
   /// </summary>
   CalcZabalans: boolean;
 
+  comparePrecision: double;
+
   /// <summary>
   /// количество знаков дробной части для длины
   /// </summary>

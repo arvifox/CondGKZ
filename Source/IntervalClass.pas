@@ -18,6 +18,8 @@ type
     destructor Destroy(); override;
     procedure CalcParam;
     procedure SetType;
+    function clone: TInterval;
+    function addInterval(i: TInterval): TInterval;
   end;
 
 implementation
@@ -26,6 +28,14 @@ uses
   System.Math, CalcInterval, ParamsCI;
 
 { TInterval }
+
+function TInterval.addInterval(i: TInterval): TInterval;
+begin
+  _to := i._to;
+  CalcParam;
+  SetType;
+  result := self;
+end;
 
 procedure TInterval.CalcParam;
 var
@@ -46,6 +56,18 @@ begin
   grade := SimpleRoundTo(metergrade / length, roundValueGrade);
   SetPrecisionMode(pm);
   SetRoundMode(rm);
+end;
+
+function TInterval.clone: TInterval;
+begin
+  result := TInterval.create;
+  result._from := _from;
+  result._to := _to;
+  result.type1 := type1;
+  result.type2 := type2;
+  result.grade := grade;
+  result.metergrade := metergrade;
+  result.length := length;
 end;
 
 constructor TInterval.Create;

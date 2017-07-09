@@ -23,6 +23,7 @@ type
     procedure CalcParamAllIntervals;
     function add(i: TInterval): integer;
     function getIntervalForSample(n: integer): TInterval;
+    function getAverageGradeBetweenIntervals(i1, i2: integer): double;
   end;
 
 implementation
@@ -87,6 +88,18 @@ begin
   inherited;
 end;
 
+function TIntervalList.getAverageGradeBetweenIntervals(i1, i2: integer): double;
+var
+  in1: TInterval;
+  i: integer;
+begin
+  in1 := list[i1].clone;
+  for i := i1 + 1 to i2 do
+    in1 := in1.addInterval(list[i]);
+  result := in1.grade;
+  in1.Free;
+end;
+
 function TIntervalList.GetCount: integer;
 begin
   result := list.Count;
@@ -125,10 +138,15 @@ end;
 function TIntervalList.TryCombineIntervalsBetween(i1, i2: integer): boolean;
 var
   length: double;
+  gr1, gr2: double;
 begin
   result := true;
   length := GetLengthBetween(i1 + 1, i2 - 1);
-  if (length > 0) and (length <= Mpp) and (true) then
+  gr1 := getAverageGradeBetweenIntervals(i1, i2 - 1);
+  gr2 := getAverageGradeBetweenIntervals(i1 + 1, i2);
+  if (length > 0) and ((length < Mpp) or SameValue(length, Mpp,
+    comparePrecision)) and ((gr1 > Sb) or SameValue(gr1, Sb, comparePrecision)
+    and ((gr2 > Sb) or SameValue(gr2, Sb, comparePrecision))) then
     CombineIntervalsBetween(i1, i2)
   else
     result := false;
