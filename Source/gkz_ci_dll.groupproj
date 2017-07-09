@@ -9,6 +9,9 @@
         <Projects Include="TestX\gkz_ci_Test.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="TestX\gkztestproj.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="gkz_ci_Test:Make">
         <MSBuild Projects="TestX\gkz_ci_Test.dproj" Targets="Make"/>
     </Target>
+    <Target Name="gkztestproj">
+        <MSBuild Projects="TestX\gkztestproj.dproj"/>
+    </Target>
+    <Target Name="gkztestproj:Clean">
+        <MSBuild Projects="TestX\gkztestproj.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="gkztestproj:Make">
+        <MSBuild Projects="TestX\gkztestproj.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="gkz_ci;gkz_ci_Test"/>
+        <CallTarget Targets="gkz_ci;gkz_ci_Test;gkztestproj"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="gkz_ci:Clean;gkz_ci_Test:Clean"/>
+        <CallTarget Targets="gkz_ci:Clean;gkz_ci_Test:Clean;gkztestproj:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="gkz_ci:Make;gkz_ci_Test:Make"/>
+        <CallTarget Targets="gkz_ci:Make;gkz_ci_Test:Make;gkztestproj:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

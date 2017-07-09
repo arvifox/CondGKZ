@@ -35,7 +35,6 @@ begin
   begin
     CalcSamples;
     CalcIntervals;
-//    SetIntervalsType;
     CombineAllIntervals;
     SetOutputIntervalArray;
     FreeEverything;
