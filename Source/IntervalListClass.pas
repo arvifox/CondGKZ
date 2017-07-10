@@ -15,7 +15,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function getList: TList<TInterval>;
-    procedure CombineIntervals(i1, i2: integer);
+    procedure CombineIntervals(i1, i2: integer; recalctype: boolean);
     procedure CombineIntervalsBetween(i1, i2: integer);
     function GetLengthBetween(i1, i2: integer): double;
     function TryCombineIntervalsBetween(i1, i2: integer): boolean;
@@ -74,16 +74,18 @@ begin
     else if list[i1].metergrade < list[i2].metergrade then
     begin
       list[i1].type1 := false;
+      list[i1].type2 := itNoCond;
       result := true;
     end
     else
     begin
       list[i2].type1 := false;
+      list[i2].type2 := itNoCond;
       result := true;
     end;
 end;
 
-procedure TIntervalList.CombineIntervals(i1, i2: integer);
+procedure TIntervalList.CombineIntervals(i1, i2: integer; recalctype: boolean);
 var
   pi: TInterval;
 begin
@@ -94,14 +96,15 @@ begin
   list.Delete(i2);
   pi.Free;
   list[i1].CalcParam;
-  list[i1].SetType;
+  if recalctype then
+    list[i1].SetType;
 end;
 
 procedure TIntervalList.CombineIntervalsBetween(i1, i2: integer);
 begin
   while i1 <> i2 do
   begin
-    CombineIntervals(i1, i1 + 1);
+    CombineIntervals(i1, i1 + 1, true);
     dec(i2);
   end;
 end;
@@ -116,7 +119,7 @@ begin
     if i >= list.Count then
       break;
     if (list[i].type1 = f) and (list[i - 1].type1 = f) then
-      CombineIntervals(i - 1, i)
+      CombineIntervals(i - 1, i, false)
     else
       inc(i);
   end;
