@@ -1,4 +1,4 @@
-unit gkz_case_1;
+unit gkz_case_2;
 
 interface
 uses
@@ -7,11 +7,11 @@ uses
 type
 
   [TestFixture]
-  TGKZCase1 = class(TObject)
+  TGKZCase2 = class(TObject)
   private
     iarray: TISampleArray;
     oarray: TOSampleArray;
-    function IsCase1: boolean;
+    function IsCase2: boolean;
     function compareoutput: boolean;
   public
     [Setup]
@@ -19,7 +19,7 @@ type
     [TearDown]
     procedure TearDown;
     [Test]
-    procedure CheckCase1;
+    procedure CheckCase2;
   end;
 
 implementation
@@ -27,12 +27,12 @@ implementation
 uses
   ExportFunctions, System.Math;
 
-procedure TGKZCase1.CheckCase1;
+procedure TGKZCase2.CheckCase2;
 begin
-  Assert.IsTrue(IsCase1, 'case 1 gkz');
+  Assert.IsTrue(IsCase2, 'case 2 gkz');
 end;
 
-function TGKZCase1.compareoutput: boolean;
+function TGKZCase2.compareoutput: boolean;
 begin
   result := true;
   if (oarray[0].ctype <> 0) or (not SameValue(oarray[0].length, 19, 0.01)) or
@@ -41,7 +41,7 @@ begin
     result := false;
 end;
 
-function TGKZCase1.IsCase1: boolean;
+function TGKZCase2.IsCase2: boolean;
 var
   r: HRESULT;
 begin
@@ -52,7 +52,7 @@ begin
     result := compareoutput;
 end;
 
-procedure TGKZCase1.Setup;
+procedure TGKZCase2.Setup;
 begin
   SetConditionConstants(1.5, 8.0, 8.0, 12.0, 0.5, false);
   SetLength(oarray, 19);
@@ -134,12 +134,12 @@ begin
   iarray[18]._grade := 11.6;
 end;
 
-procedure TGKZCase1.TearDown;
+procedure TGKZCase2.TearDown;
 begin
   iarray := nil;
   oarray := nil;
 end;
 
 initialization
-  TDUnitX.RegisterTestFixture(TGKZCase1);
+  TDUnitX.RegisterTestFixture(TGKZCase2);
 end.

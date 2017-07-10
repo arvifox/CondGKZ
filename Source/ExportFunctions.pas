@@ -12,11 +12,17 @@ function GetIntervals(_SampleArray: TISampleArray;
 
 implementation
 
-uses CalcInterval, CheckInputSamples;
+uses
+  CalcInterval, CheckInputSamples, System.Math;
 
 function SetConditionConstants(_Sb, _Mpp, _Mrt, _Mc, _Sbz: double; _Cz: boolean)
   : HRESULT; stdcall;
 begin
+  roundValueLength := -2;
+  roundValueGrade := -2;
+  roundValueMetergrade := -2;
+  precisionMode := pmDouble;
+  comparePrecision := 0.01;
   Sb := _Sb;
   Mpp := _Mpp;
   Mrt := _Mrt;

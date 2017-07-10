@@ -14,6 +14,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    function getList: TList<TInterval>;
     procedure CombineIntervals(i1, i2: integer);
     procedure CombineIntervalsBetween(i1, i2: integer);
     function GetLengthBetween(i1, i2: integer): double;
@@ -190,6 +191,11 @@ begin
   result := 0;
   for i := i1 to i2 do
     result := result + list[i].length;
+end;
+
+function TIntervalList.getList: TList<TInterval>;
+begin
+  result := list;
 end;
 
 function TIntervalList.getNextType1Interval(_i, between: integer): integer;

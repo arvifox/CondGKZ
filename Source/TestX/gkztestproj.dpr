@@ -11,7 +11,8 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
-  gkz_case_1 in 'gkz_case_1.pas';
+  gkz_case_1 in 'gkz_case_1.pas',
+  gkz_case_2 in 'gkz_case_2.pas';
 
 var
   runner : ITestRunner;

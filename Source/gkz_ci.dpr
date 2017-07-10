@@ -50,10 +50,4 @@ begin
   Sbz := 0.5;
   CalcZabalans := false;
 
-  roundValueLength := -3;
-  roundValueGrade := -3;
-  roundValueMetergrade := -3;
-  precisionMode := pmDouble;
-  comparePrecision := 0.001;
-
 end.
