@@ -46,7 +46,7 @@ begin
   Sb := 1.5;
   Mpp := 8.0;
   Mrt := 8.0;
-  Mc := 12.0;
+  Mc := Sb * Mrt;
   Sbz := 0.5;
   CalcZabalans := false;
 

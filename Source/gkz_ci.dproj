@@ -90,8 +90,8 @@
         <DCC_DcpOutput>..\Dcp32D</DCC_DcpOutput>
         <DCC_DcuOutput>..\Dcu32D</DCC_DcuOutput>
         <DCC_ExeOutput>..\Output32D</DCC_ExeOutput>
-        <VerInfo_Build>27</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.27;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>28</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.28;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Debugger_HostApplication>D:\Users\ArvI\Docs\Docs\MI KSC RAS\calendar\Mineframe\Tasks\Developing\sometest\interval dll client\Project2.exe</Debugger_HostApplication>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>

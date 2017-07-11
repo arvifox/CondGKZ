@@ -54,7 +54,7 @@ end;
 
 procedure TGKZCase1.Setup;
 begin
-  SetConditionConstants(1.5, 8.0, 8.0, 12.0, 0.5, false);
+  SetConditionConstants(1.5, 8.0, 8.0, 0.5, false);
   SetLength(oarray, 19);
   SetLength(iarray, 19);
   iarray[0]._from  := 79.0;

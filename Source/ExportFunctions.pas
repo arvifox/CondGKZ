@@ -4,7 +4,7 @@ interface
 
 uses IOTypes, ParamsCI;
 
-function SetConditionConstants(_Sb, _Mpp, _Mrt, _Mc, _Sbz: double; _Cz: boolean)
+function SetConditionConstants(_Sb, _Mpp, _Mrt, _Sbz: double; _Cz: boolean)
   : HRESULT; stdcall;
 
 function GetIntervals(_SampleArray: TISampleArray;
@@ -15,7 +15,7 @@ implementation
 uses
   CalcInterval, CheckInputSamples, System.Math;
 
-function SetConditionConstants(_Sb, _Mpp, _Mrt, _Mc, _Sbz: double; _Cz: boolean)
+function SetConditionConstants(_Sb, _Mpp, _Mrt, _Sbz: double; _Cz: boolean)
   : HRESULT; stdcall;
 begin
   roundValueLength := -2;
@@ -26,7 +26,7 @@ begin
   Sb := _Sb;
   Mpp := _Mpp;
   Mrt := _Mrt;
-  Mc := _Mc;
+  Mc := Sb * Mrt;
   Sbz := _Sbz;
   CalcZabalans := _Cz;
   Result := S_OK;
