@@ -170,8 +170,8 @@ begin
     else
       Sample1Array[i].type1 := false;
     //
-    Sample1Array[i].length := SimpleRoundTo(ISampleArray[i]._to - ISampleArray
-      [i]._from, roundValueLength);
+    Sample1Array[i].length := SimpleRoundTo(ISampleArray[i]._length,
+      roundValueLength);
     // метропроцент считаем
     Sample1Array[i].metergrade :=
       SimpleRoundTo(Sample1Array[i].length * ISampleArray[i]._grade,

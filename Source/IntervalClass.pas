@@ -45,8 +45,10 @@ var
 begin
   rm := GetRoundMode;
   SetRoundMode(rmUp);
-  length := SimpleRoundTo(ISampleArray[_to]._to - ISampleArray[_from]._from,
-    roundValueLength);
+  length := 0.0;
+  for j := _from to _to do
+    length := length + ISampleArray[j]._length;
+  length := SimpleRoundTo(length, roundValueLength);
   metergrade := 0;
   for j := _from to _to do
     metergrade := metergrade + Sample1Array[j].metergrade;

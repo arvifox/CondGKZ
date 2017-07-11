@@ -20,7 +20,7 @@ type
   /// входной тип данных для библиотеки
   /// </summary>
   TInputSample = record
-    _from, _to, _grade: double;
+    _length, _grade: double;
   end;
 
   /// <summary>
