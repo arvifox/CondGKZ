@@ -13,16 +13,6 @@
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='iOSDevice' and '$(Base)'=='true') or '$(Base_iOSDevice)'!=''">
-        <Base_iOSDevice>true</Base_iOSDevice>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='iOSSimulator' and '$(Base)'=='true') or '$(Base_iOSSimulator)'!=''">
-        <Base_iOSSimulator>true</Base_iOSSimulator>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
         <Base_OSX32>true</Base_OSX32>
         <CfgParent>Base</CfgParent>
@@ -71,12 +61,6 @@
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_iOSDevice)'!=''">
-        <DCC_UsePackage>IndyIPClient;DBXSqliteDriver;fmx;IndySystem;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapProviderClient;DbxCommonDriver;dbxcds;CustomIPTransport;dsnap;fmxase;IndyCore;IndyIPCommon;CloudService;FmxTeeUI;bindcompfmx;rtl;dbrtl;DbxClientDriver;bindcomp;xmlrtl;ibxpress;IndyProtocols;bindengine;soaprtl;bindcompdbx;FMXTee;inet;dbexpress;$(DCC_UsePackage)</DCC_UsePackage>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_iOSSimulator)'!=''">
-        <DCC_UsePackage>IndyIPClient;DBXSqliteDriver;fmx;IndySystem;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapProviderClient;DbxCommonDriver;dbxcds;CustomIPTransport;dsnap;fmxase;IndyCore;IndyIPCommon;CloudService;FmxTeeUI;bindcompfmx;rtl;dbrtl;DbxClientDriver;bindcomp;xmlrtl;ibxpress;IndyProtocols;bindengine;soaprtl;bindcompdbx;FMXTee;inet;dbexpress;$(DCC_UsePackage)</DCC_UsePackage>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <DCC_UsePackage>IndyIPClient;AnyDAC_PhysADS_D18;AnyDAC_PhysODBC_D18;AnyDAC_GUIxForms_D18;DBXSqliteDriver;AnyDAC_ComI_D18;AnyDAC_PhysTDBX_D18;fmx;IndySystem;AnyDAC_PhysIB_D18;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapServer;DataSnapProviderClient;DbxCommonDriver;dbxcds;AnyDAC_PhysMSAcc_D18;DBXOracleDriver;CustomIPTransport;dsnap;IndyIPServer;AnyDAC_PhysPg_D18;fmxase;IndyCore;IndyIPCommon;CloudService;FmxTeeUI;AnyDAC_PhysMSSQL_D18;AnyDAC_PhysOracle_D18;inetdbxpress;AnyDAC_PhysMySQL_D18;AnyDAC_Phys_D18;AnyDAC_Comp_D18;bindcompfmx;rtl;dbrtl;DbxClientDriver;bindcomp;inetdb;xmlrtl;ibxpress;IndyProtocols;DBXMySQLDriver;bindengine;soaprtl;bindcompdbx;FMXTee;AnyDAC_PhysASA_D18;DBXInformixDriver;DBXFirebirdDriver;AnyDAC_PhysSQLITE_D18;inet;fmxobj;DBXSybaseASADriver;fmxdae;dbexpress;DataSnapIndy10ServerTransport;AnyDAC_PhysDb2_D18;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
@@ -101,7 +85,7 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Manifest_File>None</Manifest_File>
+        <DCC_UnitSearchPath>C:\MFUsers\GIT\DUnitX;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
@@ -117,6 +101,7 @@
         </DelphiCompile>
         <DCCReference Include="gkz_case_1.pas"/>
         <DCCReference Include="gkz_case_2.pas"/>
+        <DCCReference Include="gkz_case_3.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -179,14 +164,12 @@
                     <Source Name="MainSource">gkztestproj.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp180.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k170.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp170.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment/>
             <Platforms>
-                <Platform value="iOSDevice">False</Platform>
-                <Platform value="iOSSimulator">False</Platform>
                 <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>

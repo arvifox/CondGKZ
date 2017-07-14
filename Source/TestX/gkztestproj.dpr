@@ -7,12 +7,14 @@ uses
   System.SysUtils,
   {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX,
-  {$ENDIF }
+  {$ENDIF}
+  DUnitX.Init,
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
   gkz_case_1 in 'gkz_case_1.pas',
-  gkz_case_2 in 'gkz_case_2.pas';
+  gkz_case_2 in 'gkz_case_2.pas',
+  gkz_case_3 in 'gkz_case_3.pas';
 
 var
   runner : ITestRunner;
