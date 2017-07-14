@@ -4,7 +4,7 @@ interface
 
 type
 
-  TIntervalType2 = (itCondBal, itCondZab, itNoCond);
+  TIntervalType2 = (itNoCond, itCondBal, itCondZab);
 
   TInterval = class
   private
@@ -88,7 +88,7 @@ begin
   // type1
   type1 := grade >= Sb;
   // type2
-  if (length < Mrt) and (metergrade < Mc) then
+  if (not type1) or ((length < Mrt) and (metergrade < Mc)) then
     type2 := itNoCond
   else
     type2 := itCondBal;

@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  ExportFunctions, System.Math;
+  ExportFunctions, System.Math, IntervalClass;
 
 procedure TGKZCase3.CheckCase3;
 begin
@@ -36,14 +36,21 @@ end;
 function TGKZCase3.compareoutput: boolean;
 begin
   result := true;
-  if (oarray[0].ctype <> 2) or (not SameValue(oarray[0].length, 2, 0.01)) then
+  if (oarray[0].ctype <> ord(itNoCond)) or
+    (not SameValue(oarray[0].length, 3.99, 0.01)) or
+    (not SameValue(oarray[0].grade, 0.0, 0.01)) or
+    (not SameValue(oarray[0].metergrade, 0.0, 0.01)) then
     result := false
-  else
-    if (oarray[2].ctype <> 0) or (not SameValue(oarray[2].length, 6, 0.01)) then
-      result := false
-    else
-      if (oarray[41].ctype <> 2) or (not SameValue(oarray[41].length, 33, 0.01)) then
-        result := false;
+  else if (oarray[22].ctype <> ord(itCondBal)) or
+    (not SameValue(oarray[22].length, 16.43, 0.01)) or
+    (not SameValue(oarray[22].grade, 0.75, 0.01)) or
+    (not SameValue(oarray[22].metergrade, 12.28, 0.01)) then
+    result := false
+  else if (oarray[23].ctype <> ord(itNoCond)) or
+    (not SameValue(oarray[23].length, 16.02, 0.01)) or
+    (not SameValue(oarray[23].grade, 0.05, 0.01)) or
+    (not SameValue(oarray[23].metergrade, 0.77, 0.01)) then
+    result := false;
 end;
 
 function TGKZCase3.IsCase3: boolean;
@@ -63,127 +70,127 @@ begin
   SetLength(oarray, 41);
   SetLength(iarray, 41);
 
-  iarray[0]._length  := 3.1;
+  iarray[0]._length := 3.1;
   iarray[0]._grade := 0.0;
 
-  iarray[1]._length  := 0.89;
+  iarray[1]._length := 0.89;
   iarray[1]._grade := 0.0;
 
-  iarray[2]._length  := 0.89;
+  iarray[2]._length := 0.89;
   iarray[2]._grade := 6.77;
 
-  iarray[3]._length  := 0.71;
+  iarray[3]._length := 0.71;
   iarray[3]._grade := 1.27;
 
-  iarray[4]._length  := 0.62;
+  iarray[4]._length := 0.62;
   iarray[4]._grade := 0.36;
 
-  iarray[5]._length  := 0.89;
+  iarray[5]._length := 0.89;
   iarray[5]._grade := 0.0;
 
-  iarray[6]._length  := 0.89;
+  iarray[6]._length := 0.89;
   iarray[6]._grade := 0.35;
 
-  iarray[7]._length  := 0.89;
+  iarray[7]._length := 0.89;
   iarray[7]._grade := 1.2;
 
-  iarray[8]._length  := 0.89;
+  iarray[8]._length := 0.89;
   iarray[8]._grade := 0.0;
 
-  iarray[9]._length  := 0.97;
+  iarray[9]._length := 0.97;
   iarray[9]._grade := 0.0;
 
-  iarray[10]._length  := 0.8;
+  iarray[10]._length := 0.8;
   iarray[10]._grade := 0.43;
 
-  iarray[11]._length  := 0.89;
+  iarray[11]._length := 0.89;
   iarray[11]._grade := 0.45;
 
-  iarray[12]._length  := 0.89;
+  iarray[12]._length := 0.89;
   iarray[12]._grade := 0.0;
 
-  iarray[13]._length  := 0.71;
+  iarray[13]._length := 0.71;
   iarray[13]._grade := 0.62;
 
-  iarray[14]._length  := 0.62;
+  iarray[14]._length := 0.62;
   iarray[14]._grade := 2.26;
 
-  iarray[15]._length  := 0.44;
+  iarray[15]._length := 0.44;
   iarray[15]._grade := 0.0;
 
-  iarray[16]._length  := 0.89;
+  iarray[16]._length := 0.89;
   iarray[16]._grade := 0.0;
 
-  iarray[17]._length  := 0.89;
+  iarray[17]._length := 0.89;
   iarray[17]._grade := 0.0;
 
-  iarray[18]._length  := 0.62;
+  iarray[18]._length := 0.62;
   iarray[18]._grade := 0.0;
 
-  iarray[19]._length  := 0.89;
+  iarray[19]._length := 0.89;
   iarray[19]._grade := 0.81;
 
-  iarray[20]._length  := 0.62;
+  iarray[20]._length := 0.62;
   iarray[20]._grade := 0.0;
 
-  iarray[21]._length  := 0.71;
+  iarray[21]._length := 0.71;
   iarray[21]._grade := 0.0;
 
-  iarray[22]._length  := 0.71;
+  iarray[22]._length := 0.71;
   iarray[22]._grade := 0.64;
 
-  iarray[23]._length  := 0.89;
+  iarray[23]._length := 0.89;
   iarray[23]._grade := 0.0;
 
-  iarray[24]._length  := 0.89;
+  iarray[24]._length := 0.89;
   iarray[24]._grade := 0.0;
 
-  iarray[25]._length  := 0.89;
+  iarray[25]._length := 0.89;
   iarray[25]._grade := 0.0;
 
-  iarray[26]._length  := 0.89;
+  iarray[26]._length := 0.89;
   iarray[26]._grade := 0.0;
 
-  iarray[27]._length  := 0.98;
+  iarray[27]._length := 0.98;
   iarray[27]._grade := 0.0;
 
-  iarray[28]._length  := 0.98;
+  iarray[28]._length := 0.98;
   iarray[28]._grade := 0.0;
 
-  iarray[29]._length  := 0.8;
+  iarray[29]._length := 0.8;
   iarray[29]._grade := 0.5;
 
-  iarray[30]._length  := 0.8;
+  iarray[30]._length := 0.8;
   iarray[30]._grade := 0.0;
 
-  iarray[31]._length  := 0.89;
+  iarray[31]._length := 0.89;
   iarray[31]._grade := 0.42;
 
-  iarray[32]._length  := 0.89;
+  iarray[32]._length := 0.89;
   iarray[32]._grade := 0.0;
 
-  iarray[33]._length  := 0.89;
+  iarray[33]._length := 0.89;
   iarray[33]._grade := 0.0;
 
-  iarray[34]._length  := 0.89;
+  iarray[34]._length := 0.89;
   iarray[34]._grade := 0.0;
 
-  iarray[35]._length  := 0.89;
+  iarray[35]._length := 0.89;
   iarray[35]._grade := 0.0;
 
-  iarray[36]._length  := 0.89;
+  iarray[36]._length := 0.89;
   iarray[36]._grade := 0.0;
 
-  iarray[37]._length  := 0.62;
+  iarray[37]._length := 0.62;
   iarray[37]._grade := 0.0;
 
-  iarray[38]._length  := 0.98;
+  iarray[38]._length := 0.98;
   iarray[38]._grade := 0.0;
 
-  iarray[39]._length  := 0.98;
+  iarray[39]._length := 0.98;
   iarray[39]._grade := 0.0;
 
-  iarray[40]._length  := 0.98;
+  iarray[40]._length := 0.98;
   iarray[40]._grade := 0.0;
 end;
 
@@ -194,5 +201,7 @@ begin
 end;
 
 initialization
-  TDUnitX.RegisterTestFixture(TGKZCase3);
+
+TDUnitX.RegisterTestFixture(TGKZCase3);
+
 end.

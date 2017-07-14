@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  ExportFunctions, System.Math;
+  ExportFunctions, System.Math, IntervalClass;
 
 procedure TGKZCase2.CheckCase2;
 begin
@@ -36,12 +36,14 @@ end;
 function TGKZCase2.compareoutput: boolean;
 begin
   result := true;
-  if (oarray[0].ctype <> 2) or (not SameValue(oarray[0].length, 13, 0.01)) or
+  if (oarray[0].ctype <> ord(itNoCond)) or
+    (not SameValue(oarray[0].length, 13, 0.01)) or
     (not SameValue(oarray[0].grade, 1.48, 0.01)) or
     (not SameValue(oarray[0].metergrade, 19.2, 0.01)) then
     result := false
-  else if (oarray[19].ctype <> 0) or (not SameValue(oarray[19].length, 7, 0.01))
-    or (not SameValue(oarray[19].grade, 3.14, 0.01)) or
+  else if (oarray[19].ctype <> ord(itCondBal)) or
+    (not SameValue(oarray[19].length, 7, 0.01)) or
+    (not SameValue(oarray[19].grade, 3.14, 0.01)) or
     (not SameValue(oarray[19].metergrade, 22.0, 0.01)) then
     result := false;
 end;

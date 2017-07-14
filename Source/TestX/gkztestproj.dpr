@@ -8,7 +8,9 @@ uses
   {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX,
   {$ENDIF}
+  {$IFDEF VER240}
   DUnitX.Init,
+  {$ENDIF}
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
