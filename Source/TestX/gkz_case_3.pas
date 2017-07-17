@@ -41,15 +41,15 @@ begin
     (not SameValue(oarray[0].grade, 0.0, 0.01)) or
     (not SameValue(oarray[0].metergrade, 0.0, 0.01)) then
     result := false
-  else if (oarray[22].ctype <> ord(itCondBal)) or
-    (not SameValue(oarray[22].length, 16.43, 0.01)) or
-    (not SameValue(oarray[22].grade, 0.75, 0.01)) or
-    (not SameValue(oarray[22].metergrade, 12.28, 0.01)) then
+  else if (oarray[14].ctype <> ord(itCondBal)) or
+    (not SameValue(oarray[14].length, 10.66, 0.01)) or
+    (not SameValue(oarray[14].grade, 1.04, 0.01)) or
+    (not SameValue(oarray[14].metergrade, 11.11, 0.01)) then
     result := false
-  else if (oarray[23].ctype <> ord(itNoCond)) or
-    (not SameValue(oarray[23].length, 16.02, 0.01)) or
-    (not SameValue(oarray[23].grade, 0.05, 0.01)) or
-    (not SameValue(oarray[23].metergrade, 0.77, 0.01)) then
+  else if (oarray[15].ctype <> ord(itNoCond)) or
+    (not SameValue(oarray[15].length, 21.79, 0.01)) or
+    (not SameValue(oarray[15].grade, 0.09, 0.01)) or
+    (not SameValue(oarray[15].metergrade, 1.94, 0.01)) then
     result := false;
 end;
 

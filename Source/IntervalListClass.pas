@@ -250,8 +250,8 @@ begin
   gr1 := getAverageGradeBetweenIntervals(i1, i2 - 1);
   gr2 := getAverageGradeBetweenIntervals(i1 + 1, i2);
   if (length > 0) and ((length < Mpp) or SameValue(length, Mpp,
-    comparePrecision)) and ((gr1 > Sb) or SameValue(gr1, Sb, comparePrecision)
-    and ((gr2 > Sb) or SameValue(gr2, Sb, comparePrecision))) then
+    comparePrecision)) and ((gr1 > Sb) or SameValue(gr1, Sb, comparePrecision))
+    and ((gr2 > Sb) or SameValue(gr2, Sb, comparePrecision)) then
     CombineIntervalsBetween(i1, i2)
   else
     result := false;
